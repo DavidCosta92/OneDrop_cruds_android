@@ -9,6 +9,20 @@
 
 
     <TextView
+        android:id="@+id/textView5"
+        android:layout_width="382dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/add_reg_gly"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_add_reg_gly"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.607"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="207dp"
         android:layout_height="85dp"
@@ -21,25 +35,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.024" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="376dp"
-        android:layout_height="27dp"
-        android:text="@string/add_reg_gly"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="121dp" />
-
     <LinearLayout
-        android:layout_width="383dp"
-        android:layout_height="388dp"
+        android:id="@+id/layout_add_reg_gly"
+        android:layout_width="381dp"
+        android:layout_height="267dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.548"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.466">
+        app:layout_constraintVertical_bias="0.301">
 
         <EditText
             android:id="@+id/add_value_gly"
@@ -59,7 +65,7 @@
         <EditText
             android:id="@+id/add_notes_gly"
             android:layout_width="match_parent"
-            android:layout_height="184dp"
+            android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/add_reg_gly_notes_placeholder"
@@ -85,6 +91,35 @@
             android:layout_height="wrap_content"
             android:onClick="add_new_reg_gly"
             android:text="@string/add_reg_gly_btn_add" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_view_reg_gly"
+        android:layout_width="383dp"
+        android:layout_height="254dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.629"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_add_reg_gly"
+        app:layout_constraintVertical_bias="0.1">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reg_gly"
+            android:textSize="18sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_reg_gly"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

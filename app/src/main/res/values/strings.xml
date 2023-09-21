@@ -8,6 +8,13 @@
     <string name="add_reg_gly_notes">Notas</string>
     <string name="add_reg_gly_notes_placeholder">Tome esta muestra 30 minutos despues de desayunar un cafe con leche..</string>
     <string name="add_reg_gly_btn_add">¡Agregar nuevo registro!</string>
+    <string name="reg_gly">Registros de glucemia historicos</string>
     <string name="del_reg_gly">Registros de glucemia</string>
     <string name="edit_reg_gly">Registros de glucemia</string>
+
+
+    <string name="recycler_reg_gly_edit">***</string>
+    <string name="recycler_reg_gly_delete">---</string>
+    <string name="recycler_reg_gly_note">Registros de glucemia</string>
+
 </resources>

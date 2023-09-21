@@ -15,6 +15,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //CREACION DE TABLAS se ejecuta una vez
         // REG GLUCEMIA
+        //
         db.execSQL("CREATE TABLE glycemia (\n"+
                 " id_reg_glucemia INTEGER PRIMARY KEY AUTOINCREMENT, \n"+
                 " date DATETIME NOT NULL, \n"+
