@@ -121,6 +121,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
       public void updateRegGly(){
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+
         SQLiteDatabase bd = admin.getWritableDatabase(); // abre la bd
         // este obj ejecuta la consulta a bd
         Cursor fila = bd.rawQuery("SELECT * FROM glycemia", null);
@@ -147,6 +152,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.updateRegGly();
     }
     public void add_new_reg_gly(View v){
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+
         SQLiteDatabase bd = admin.getWritableDatabase();// abre la bd
         ContentValues new_reg_gly = new ContentValues(); // crea un objeto que luego sera un nuevo registro en la bd
 
@@ -175,6 +185,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     public void edit_reg_gly(int id){
+
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+
         // cargar datos en campos visuales de registro para que se puedan ver y modificar
         SQLiteDatabase bd = admin.getWritableDatabase(); // abre la bd
         Cursor reg_gly = bd.rawQuery("SELECT * FROM glycemia WHERE id_reg_glucemia = " +id, null); // Busco el registro por id
@@ -195,6 +211,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     public void update_edited_reg_gly (int id){
+
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+
         // tomar datos re ingresados en campos y hacer el update definitivo con los nuevos campos
         SQLiteDatabase bd = admin.getWritableDatabase();
         ContentValues edited_reg_gly = new ContentValues(); // crea un objeto que luego actualizara
@@ -232,6 +254,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void delete_reg_gly(int id){
+
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+
         SQLiteDatabase bd = admin.getWritableDatabase();
         int deletedRow = bd.delete("glycemia", "id_reg_glucemia = "+id, null);
         bd.close(); // cierro conexion bd
