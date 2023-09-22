@@ -21,7 +21,7 @@
 
             <TextView
                 android:id="@+id/recycler_reg_gly_id"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -33,7 +33,7 @@
 
             <TextView
                 android:id="@+id/recycler_reg_gly_date"
-                android:layout_width="250sp"
+                android:layout_width="225sp"
                 android:layout_height="50dp"
                 android:gravity="center"
                 android:text="Fecha"
@@ -60,7 +60,7 @@
 
             <TextView
                 android:id="@+id/recycler_reg_gly_note"
-                android:layout_width="312dp"
+                android:layout_width="262dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:paddingStart="10dp"
@@ -69,11 +69,22 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/recycler_btn_edit_reg_gly"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="*" />
+
+            <Button
+                android:id="@+id/recycler_btn_delete_reg_gly"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#4A0303"
+                android:backgroundTint="#DFAFAF"
+                android:text="-"
+                android:textColorHighlight="#EC7272"
+                android:textColorLink="#E81212" />
 
         </LinearLayout>
 

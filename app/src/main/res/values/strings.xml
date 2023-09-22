@@ -13,8 +13,7 @@
     <string name="edit_reg_gly">Registros de glucemia</string>
 
 
-    <string name="recycler_reg_gly_edit">***</string>
-    <string name="recycler_reg_gly_delete">---</string>
-    <string name="recycler_reg_gly_note">Registros de glucemia</string>
+    <string name="recycler_reg_gly_edit">Edit</string>
+    <string name="recycler_reg_gly_delete">Del</string>
 
 </resources>

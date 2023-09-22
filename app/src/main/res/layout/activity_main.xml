@@ -86,7 +86,7 @@
             android:inputType="datetime" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_add_reg_gly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="add_new_reg_gly"
