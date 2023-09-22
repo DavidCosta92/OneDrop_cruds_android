@@ -176,18 +176,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void edit_reg_gly(int id){
         // cargar datos en campos visuales de registro para que se puedan ver y modificar
-        SQLiteDatabase bd = admin.getWritableDatabase();// abre la bd
-        Cursor reg_gly = bd.rawQuery("SELECT * FROM glycemia WHERE id_reg_glucemia = " +id, null);
+        SQLiteDatabase bd = admin.getWritableDatabase(); // abre la bd
+        Cursor reg_gly = bd.rawQuery("SELECT * FROM glycemia WHERE id_reg_glucemia = " +id, null); // Busco el registro por id
 
         if(reg_gly.moveToFirst()){
-            add_date_gly.setText(reg_gly.getString(1));
+            add_date_gly.setText(reg_gly.getString(1)); // obtengo la primera columna del resultado, y el texto lo seteo en el campo date
             add_value_gly.setText(reg_gly.getString(2));
             add_notes_gly.setText(reg_gly.getString(3));
-
             btn_add_reg_gly.setText("¡ EDITAR REGISTRO !"); // cambio texto de btn para que user sepa que va a EDITAR el registro
+            btn_add_reg_gly.setBackgroundColor(getColor(R.color.red));// cambio color de btn para que user sepa que va a EDITAR el registro
+
             // Pongo una funcion para que cuando haga click en el btn editar, llame a mi funcion update..
             btn_add_reg_gly.setOnClickListener(view -> {
-                update_edited_reg_gly(id);
+                update_edited_reg_gly(id); // esta funcion es la que realiza el update real
             });
         } else {
             Toast.makeText(this,"Click en EDIT id= pero hubo un error pareceeeee", Toast.LENGTH_SHORT).show();
@@ -204,37 +205,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int editedRows = bd.update("glycemia", edited_reg_gly, "id_reg_glucemia = "+id, null);
         if (editedRows == 1){
-            // mandar a refrescar recicler y vaciar textos..
+            // Si edite alguna fila, mandar a refrescar recicler, vaciar textos y setear btn a estado inicial..
             add_value_gly.setText("");// limpio pantalla
             add_notes_gly.setText("");
             add_date_gly.setText("");
             this.updateRegGly(); // actualiza array de reg
             adapterRegGly.notifyDataSetChanged(); // refresca pantalla del recycler
+            btn_add_reg_gly.setText("¡Agregar nuevo registro!"); // Coloco el btn a su texto inicial
+            btn_add_reg_gly.setBackgroundColor(getColor(R.color.green)); // Coloco el btn a su color inicial
+            // sobre escribo el click para que vuelva a su estado original (agregar registros)
+            // ESTO ES LA FORMA CON LAMBDA
+            btn_add_reg_gly.setOnClickListener(view -> {
+                add_new_reg_gly(view);
+            });
+            // ESTO ES LA FORMA COMPLETA DE HACERLO
+            // btn_add_reg_gly.setOnClickListener(new View.OnClickListener() {
+            //     @Override
+            //     public void onClick(View view) {
+            //
+            //     }
+            // });
             Toast.makeText(this, "Registro actualizado!", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "ERROR AL EDITAR REGISTRO", Toast.LENGTH_LONG).show();
         }
-        // luego deberia poner un condicional, que vuelva el btn a su estado normal
-
-        btn_add_reg_gly.setText(""); // intento ver si el btn se restaura su texto original...
-        //btn_add_reg_gly.setText("¡Agregar nuevo registro!");
-
-        // Elimino onClick creado para editar y seteo el nuevo on click
-        btn_add_reg_gly.setOnClickListener(null); //
-        //btn_add_reg_gly.setOnClickListener(add_new_reg_gly);
     }
 
     public void delete_reg_gly(int id){
         SQLiteDatabase bd = admin.getWritableDatabase();
         int deletedRow = bd.delete("glycemia", "id_reg_glucemia = "+id, null);
+        bd.close(); // cierro conexion bd
+
         if(deletedRow == 1){
+            this.updateRegGly(); // actualiza array de reg
+            adapterRegGly.notifyDataSetChanged(); // refresca pantalla del recycler
             Toast.makeText(this, "Registro eliminado correctamente", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "Error eliminando registro", Toast.LENGTH_LONG).show();
         }
-        bd.close(); // cierro conexion bd
-        this.updateRegGly(); // actualiza array de reg
-        adapterRegGly.notifyDataSetChanged(); // refresca pantalla del recycler
     }
 
 
