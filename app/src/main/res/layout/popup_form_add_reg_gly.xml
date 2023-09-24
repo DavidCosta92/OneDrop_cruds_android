@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/layout_edit_reg_gly"
         android:layout_width="362dp"
-        android:layout_height="447dp"
+        android:layout_height="450dp"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="10dp">
@@ -18,6 +18,8 @@
             android:id="@+id/edit_date_gly3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:ems="10"
             android:hint="(Opcional)"
             android:inputType="datetime"
@@ -28,6 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/add_reg_gly_date"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:textSize="20sp" />
 
         <EditText
@@ -35,6 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="datetime"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:focusable="false"
             android:clickable="true"
             android:maxLines="1" />
@@ -43,6 +49,8 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:paddingTop="30dp"
             android:text="@string/add_reg_gly_value" />
 
@@ -50,6 +58,8 @@
             android:id="@+id/edit_value_gly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:ems="10"
             android:hint="@string/add_reg_gly_value_placeholder"
             android:inputType="numberDecimal"
@@ -59,6 +69,8 @@
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:paddingTop="30dp"
             android:text="@string/add_reg_gly_notes"
             android:textSize="20sp" />
@@ -67,6 +79,8 @@
             android:id="@+id/edit_notes_gly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/add_reg_gly_notes_placeholder"
