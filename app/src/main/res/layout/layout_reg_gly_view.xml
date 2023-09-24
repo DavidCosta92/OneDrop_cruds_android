@@ -9,8 +9,10 @@
         android:layout_height="match_parent"
         android:background="@color/background_grey"
         android:dividerPadding="10sp"
+        android:gravity="center"
         android:orientation="vertical"
         android:outlineAmbientShadowColor="#FFFFFFFF"
+        android:padding="5dp"
         android:showDividers="end">
 
         <LinearLayout
@@ -20,20 +22,8 @@
             android:outlineAmbientShadowColor="#E81212">
 
             <TextView
-                android:id="@+id/recycler_reg_gly_id"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingStart="10dp"
-                android:text="id"
-                android:textAlignment="viewStart"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
                 android:id="@+id/recycler_reg_gly_date"
-                android:layout_width="225sp"
+                android:layout_width="262dp"
                 android:layout_height="50dp"
                 android:gravity="center"
                 android:text="Fecha"
@@ -43,20 +33,21 @@
 
             <TextView
                 android:id="@+id/recycler_reg_gly_value"
-                android:layout_width="100sp"
-                android:layout_height="50dp"
+                android:layout_width="122dp"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingEnd="10dp"
+                android:paddingEnd="20dp"
                 android:text="0.78"
-                android:textAlignment="textEnd"
-                android:textSize="34sp" />
+                android:textAlignment="center"
+                android:textSize="30sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="20dp">
 
             <TextView
                 android:id="@+id/recycler_reg_gly_note"
