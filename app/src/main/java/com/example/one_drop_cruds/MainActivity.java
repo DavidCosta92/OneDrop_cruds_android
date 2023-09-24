@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -135,10 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         return dataSet;
     }
-    @Override
-    public void onClick(View view) {
 
-    }
     public String formatDate (String inputDate){
         Date date = null;
         try {
@@ -198,7 +196,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setView(popupAddReg); // ESTO ES PARA QUE PUEDA OBTENER LAS REFERENCIAS DESDE popupAddReg Y PODER OBTENER EL CONTROL DE LOS ELEMENTOS
         add_value_gly = popupAddReg.findViewById(R.id.edit_value_gly);
         add_notes_gly = popupAddReg.findViewById(R.id.edit_notes_gly);
-        add_date_gly = popupAddReg.findViewById(R.id.edit_date_gly);
+
+        // add_date_gly = popupAddReg.findViewById(R.id.edit_date_gly);
+        add_date_gly = popupAddReg.findViewById(R.id.edit_date_gly_pickdater); // ESTE ES PARA EL PICKDATER
+        // ESTA FORMA AGREGA A ESTA MISMA CLASE COMO LISTENER Y LUEGO EN UN SWITCH SE ELIJE EL EVENTO SEGUN SU ID..
+        add_date_gly.setOnClickListener(this);
+
         builder.setPositiveButton("¡Agregar!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 add_new_reg_gly();
@@ -213,6 +216,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         builder.create().show();
     }
+    @Override
+    public void onClick(View view) {
+
+    }
+
     // RECICLER VIEW
     // RECICLER VIEW Clase que se encargara de CREAR todos los elementos de lista
     private class AdapterRegGly extends RecyclerView.Adapter<AdapterRegGly.AdapterRegGlyHolder> {
@@ -273,6 +281,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
+    //USO DE BD
+    //USO DE BD
+    //USO DE BD
+    //USO DE BD
     public void updateRegGly(){
         // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
         // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
@@ -301,16 +314,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         bd.close(); // cierro conexion bd
     }
-
-    // PENDIENTE, DEBO HACER QUE EL POP ABRA DESDE EL BTN EDIT
     public void set_text_edit_reg_popup(int id){
-
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
         // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
 
-        // cargar datos en campos visuales de registro para que se puedan ver y modificar
+        // cargar datos en campos visuales para que sea visible y editable lo que estaba en la bd
         SQLiteDatabase bd = admin.getWritableDatabase(); // abre la bd
         Cursor reg_gly = bd.rawQuery("SELECT * FROM glycemia WHERE id_reg_glucemia = " +id, null); // Busco el registro por id
 
@@ -321,30 +328,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             Toast.makeText(this,"Click en EDIT  pero hubo un error pareceeeee", Toast.LENGTH_SHORT).show();
         }
-
-
-
-            // btn_add_reg_gly.setText("¡ EDITAR REGISTRO !"); // cambio texto de btn para que user sepa que va a EDITAR el registro
-            // btn_add_reg_gly.setBackgroundColor(getColor(R.color.red));// cambio color de btn para que user sepa que va a EDITAR el registro
-
-            // Pongo una funcion para que cuando haga click en el btn editar, llame a mi funcion update..
-
-        /*
-            btn_add_reg_gly.setOnClickListener(view -> {
-                update_edited_reg_gly(id); // esta funcion es la que realiza el update real
-            });
-        } else {
-            Toast.makeText(this,"Click en EDIT id= pero hubo un error pareceeeee", Toast.LENGTH_SHORT).show();
-        }
-
-         */
     }
 
     public void update_edited_reg_gly (int id){
 
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
         // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
 
         // tomar datos re ingresados en campos y hacer el update definitivo con los nuevos campos
@@ -356,6 +343,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edited_reg_gly.put("notes", edit_notes_gly.getText().toString());
 
         int editedRows = bd.update("glycemia", edited_reg_gly, "id_reg_glucemia = "+id, null);
+
         if (editedRows == 1){
             // Si edite alguna fila, mandar a refrescar recicler, vaciar textos y setear btn a estado inicial..
             edit_value_gly.setText("");// limpio pantalla
@@ -374,7 +362,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 add_new_reg_gly(view);
             });
             */
-
             // ESTO ES LA FORMA COMPLETA DE HACERLO
             // btn_add_reg_gly.setOnClickListener(new View.OnClickListener() {
             //     @Override
@@ -387,12 +374,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "ERROR AL EDITAR REGISTRO", Toast.LENGTH_LONG).show();
         }
     }
-
-
     public void add_new_reg_gly(){
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
         // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
 
         SQLiteDatabase bd = admin.getWritableDatabase();// abre la bd
@@ -403,7 +385,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println("CREO NUEVA FECHA NOW PORQUE VINO VACIA");
             new_reg_gly.put("date", new Date().toString());
         } else {
-            System.out.println("TOMO FECHA ELEGIDA POR USER");
             new_reg_gly.put("date", add_date_gly.getText().toString());
         }
         new_reg_gly.put("value", add_value_gly.getText().toString());
