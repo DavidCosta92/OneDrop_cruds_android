@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.one_drop_cruds"
-        minSdk = 31
+        minSdk = 27
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"

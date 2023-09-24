@@ -18,13 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="380dp"
+            android:layout_marginTop="350dp"
             android:padding="20dp">
 
 
             <EditText
-                android:layout_width="350dp"
+                android:layout_width="330dp"
                 android:layout_height="60dp"
+                android:layout_gravity="center"
                 android:id="@+id/signup_email"
                 android:background="@drawable/lavender_border"
                 android:layout_marginTop="30dp"
@@ -34,33 +35,36 @@
                 android:drawablePadding="8dp"/>
 
             <EditText
-                android:layout_width="350dp"
+                android:layout_width="330dp"
                 android:layout_height="60dp"
+                android:layout_gravity="center"
                 android:id="@+id/signup_password"
                 android:background="@drawable/lavender_border"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"
-                android:hint="Password"
+                android:hint="Contraseña"
                 android:inputType="textPassword"
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"/>
 
             <EditText
-                android:layout_width="350dp"
+                android:layout_width="330dp"
                 android:layout_height="60dp"
+                android:layout_gravity="center"
                 android:id="@+id/signup_confirm"
                 android:background="@drawable/lavender_border"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"
-                android:hint="Confirm Password"
+                android:hint="Confirmar Contraseña"
                 android:inputType="textPassword"
                 android:drawableLeft="@drawable/baseline_password_24"
                 android:drawablePadding="8dp"/>
 
             <Button
-                android:layout_width="350dp"
+                android:layout_width="330dp"
                 android:layout_height="70dp"
-                android:text="Sign Up"
+                android:layout_gravity="center"
+                android:text="Registrarse"
                 android:id="@+id/signup_button"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
@@ -71,12 +75,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/loginRedirectText"
-                android:text="Already an user? Login"
+                android:text="Ya sos usuario? Ingresá"
                 android:layout_gravity="center"
                 android:padding="8dp"
                 android:textSize="18sp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/lavender"/>
+                android:textColor="@color/design_default_color_primary_variant"/>
 
         </LinearLayout>
     </LinearLayout>

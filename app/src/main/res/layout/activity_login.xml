@@ -20,16 +20,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="500dp"
+                android:layout_marginTop="400dp"
                 android:orientation="vertical"
                 android:padding="20dp">
 
 
                 <EditText
                     android:id="@+id/login_email"
-                    android:layout_width="350dp"
+                    android:layout_width="330dp"
                     android:layout_height="60dp"
                     android:layout_marginTop="30dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/lavender_border"
                     android:drawableLeft="@drawable/baseline_email_24"
                     android:drawablePadding="6dp"
@@ -38,20 +39,22 @@
 
                 <EditText
                     android:id="@+id/login_password"
-                    android:layout_width="350dp"
+                    android:layout_width="330dp"
                     android:layout_height="60dp"
                     android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/lavender_border"
                     android:drawableLeft="@drawable/baseline_lock_24"
                     android:drawablePadding="8dp"
-                    android:hint="Password"
+                    android:hint="Contraseña"
                     android:inputType="textPassword"
                     android:padding="8dp" />
 
                 <Button
                     android:id="@+id/login_button"
-                    android:layout_width="350dp"
+                    android:layout_width="330dp"
                     android:layout_height="70dp"
+                    android:layout_gravity="center"
                     android:layout_marginTop="30dp"
                     android:text="Login"
                     android:textSize="18sp"
@@ -64,8 +67,8 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="14dp"
                     android:padding="8dp"
-                    android:text="Not yet registered? Signup"
-                    android:textColor="@color/lavender"
+                    android:text="No eres Usuario? Regístrate"
+                    android:textColor="@color/design_default_color_primary_variant"
                     android:textSize="18sp" />
 
             </LinearLayout>
