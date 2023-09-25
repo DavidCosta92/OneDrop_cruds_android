@@ -194,11 +194,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setMessage("Agregar registro de glucemia");
         View popupAddReg = getLayoutInflater().inflate(R.layout.popup_form_add_reg_gly, null);
         builder.setView(popupAddReg); // ESTO ES PARA QUE PUEDA OBTENER LAS REFERENCIAS DESDE popupAddReg Y PODER OBTENER EL CONTROL DE LOS ELEMENTOS
-        add_value_gly = popupAddReg.findViewById(R.id.edit_value_gly);
-        add_notes_gly = popupAddReg.findViewById(R.id.edit_notes_gly);
+        add_value_gly = popupAddReg.findViewById(R.id.add_value_gly);
+        add_notes_gly = popupAddReg.findViewById(R.id.add_notes_gly);
 
-        // add_date_gly = popupAddReg.findViewById(R.id.edit_date_gly);
-        add_date_gly = popupAddReg.findViewById(R.id.edit_date_gly_pickdater); // ESTE ES PARA EL PICKDATER
+        add_date_gly = popupAddReg.findViewById(R.id.add_date_gly);
+        // add_date_gly = popupAddReg.findViewById(R.id.edit_date_gly_pickdater); // ESTE ES PARA EL PICKDATER
         // ESTA FORMA AGREGA A ESTA MISMA CLASE COMO LISTENER Y LUEGO EN UN SWITCH SE ELIJE EL EVENTO SEGUN SU ID..
         add_date_gly.setOnClickListener(this);
 
