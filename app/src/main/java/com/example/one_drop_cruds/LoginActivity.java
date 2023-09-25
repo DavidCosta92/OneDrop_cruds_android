@@ -13,7 +13,7 @@ import com.example.one_drop_cruds.databinding.ActivityLoginBinding;
 public class LoginActivity extends AppCompatActivity {
 
     ActivityLoginBinding binding;
-    DatabaseHelper databaseHelper;
+    AdminSQLiteOpenHelper adminBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        databaseHelper = new DatabaseHelper(this);
+        adminBD = new AdminSQLiteOpenHelper(this, "bd_one_drop", null, 1); // version es para las futuras modificaciones de la estructura de la bd
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(email.equals("")||password.equals(""))
                     Toast.makeText(LoginActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
                 else{
-                    Boolean checkCredentials = databaseHelper.checkEmailPassword(email, password);
+                    Boolean checkCredentials = adminBD.checkEmailPassword(email, password);
 
                     if(checkCredentials == true){
                         Toast.makeText(LoginActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();

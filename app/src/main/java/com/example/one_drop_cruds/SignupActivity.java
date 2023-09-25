@@ -10,7 +10,8 @@ import com.example.one_drop_cruds.databinding.ActivitySignupBinding;
 public class SignupActivity extends AppCompatActivity {
 
     ActivitySignupBinding binding;
-    DatabaseHelper databaseHelper;
+    // DatabaseHelper databaseHelper;
+    AdminSQLiteOpenHelper adminBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +19,8 @@ public class SignupActivity extends AppCompatActivity {
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        databaseHelper = new DatabaseHelper(this);
+        adminBD = new AdminSQLiteOpenHelper(this, "bd_one_drop", null, 1); // version es para las futuras modificaciones de la estructura de la bd
+
 
         binding.signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,10 +33,10 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
                 else{
                     if(password.equals(confirmPassword)){
-                        Boolean checkUserEmail = databaseHelper.checkEmail(email);
+                        Boolean checkUserEmail = adminBD.checkEmail(email);
 
                         if(checkUserEmail == false){
-                            Boolean insert = databaseHelper.insertData(email, password);
+                            Boolean insert = adminBD.createUser(email, password);
 
                             if(insert == true){
                                 Toast.makeText(SignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
