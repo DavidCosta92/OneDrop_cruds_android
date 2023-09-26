@@ -6,10 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.one_drop_cruds.entities.DTORegister;
+import com.example.one_drop_cruds.entities.DTOReadAllRegisters;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -38,6 +38,7 @@ import java.util.Locale;
 
 public class RegWeightActivity extends AppCompatActivity implements View.OnClickListener{
     AdminSQLiteOpenHelper admin;
+    String TABLE_NAME = "weight";
     EditText add_value_weight, add_notes_weight, add_date_weight;
     EditText edit_value_weight, edit_notes_weight, edit_date_weight;
     FloatingActionButton float_btn_add_reg_weight;
@@ -63,7 +64,7 @@ public class RegWeightActivity extends AppCompatActivity implements View.OnClick
 
         admin = new AdminSQLiteOpenHelper(this, "bd_one_drop", null, 1); // version es para las futuras modificaciones de la estructura de la bd
 
-        this.updateRegWeight(); // CARGAR ARRAYS CON DATA
+        this.refreshRegs(); // CARGAR ARRAYS CON DATA
 
         // btn float add
 
@@ -166,10 +167,10 @@ public class RegWeightActivity extends AppCompatActivity implements View.OnClick
         edit_notes_weight = popupEditReg.findViewById(R.id.edit_notes_weight);
         edit_date_weight = popupEditReg.findViewById(R.id.edit_date_weight);
 
-        set_text_edit_reg_popup(id_reg); // esto es para setear los campos del popup con la info de la bd
+        setTextEditRegPopup(id_reg); // esto es para setear los campos del popup con la info de la bd
         builder.setPositiveButton("¡Editar!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                update_edited_reg_weight(id_reg); // toma los campos modificados y actualiza la bd
+                updateEditedReg(id_reg); // toma los campos modificados y actualiza la bd
                 dialog.dismiss();
             }
         });
@@ -185,7 +186,7 @@ public class RegWeightActivity extends AppCompatActivity implements View.OnClick
         builder.setMessage("¿Eliminar este registro?");
         builder.setPositiveButton("¡Eliminar!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                delete_reg_weight(id_reg);
+                deleteReg(id_reg);
                 dialog.dismiss();
             }
         });
@@ -211,7 +212,7 @@ public class RegWeightActivity extends AppCompatActivity implements View.OnClick
 
         builder.setPositiveButton("¡Agregar!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                add_new_reg_weight();
+                addNewReg();
                 dialog.dismiss();
             }
         });
@@ -289,110 +290,50 @@ public class RegWeightActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    //USO DE BD
-    //USO DE BD
-    //USO DE BD
-    //USO DE BD
-    public void updateRegWeight(){
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+    //USO DE BD -- USO DE BD -- USO DE BD -- USO DE BD
+    public void refreshRegs(){
+        DTOReadAllRegisters results = admin.getAllRegs(this.TABLE_NAME);
+        if (results != null){
+            // limpio arrays para recibir los datos nuevos..
+            reg_weight_ids.clear();
+            reg_weight_dates.clear();
+            reg_weight_values.clear();
+            reg_weight_notes.clear();
 
-        SQLiteDatabase bd = admin.getWritableDatabase(); // abre la bd
-        // este obj ejecuta la consulta a bd
-        Cursor fila = bd.rawQuery("SELECT * FROM weight", null);
-
-        reg_weight_ids.clear(); // limpio arrays para recibir los datos nuevos..
-        reg_weight_dates.clear();
-        reg_weight_values.clear();
-        reg_weight_notes.clear();
-
-        if (fila.moveToFirst()){
-            do {
-                reg_weight_ids.add(Integer.valueOf(fila.getInt(0)));
-                reg_weight_dates.add(fila.getString(1));
-                reg_weight_values.add(fila.getDouble(2));
-                reg_weight_notes.add(fila.getString(3));
-            }
-            while (fila.moveToNext());
+            // SETEO A LOS VALORES RECIBIDOS POR BD
+            reg_weight_ids = results.getReg_ids();
+            reg_weight_dates = results.getReg_dates();
+            reg_weight_values = results.getReg_values();
+            reg_weight_notes = results.getReg_notes();
         } else{
             Toast.makeText(this, "Aun no hay registros guardados..", Toast.LENGTH_LONG).show();
         }
-        bd.close(); // cierro conexion bd
     }
-    public void set_text_edit_reg_popup(int id){
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-
-        // cargar datos en campos visuales para que sea visible y editable lo que estaba en la bd
-        SQLiteDatabase bd = admin.getWritableDatabase(); // abre la bd
-        Cursor reg_weight = bd.rawQuery("SELECT * FROM weight WHERE id_reg_weight = " +id, null); // Busco el registro por id
-
-        if(reg_weight.moveToFirst()) {
-            edit_date_weight.setText(reg_weight.getString(1)); // obtengo la primera columna del resultado, y el texto lo seteo en el campo date
-            edit_value_weight.setText(reg_weight.getString(2));
-            edit_notes_weight.setText(reg_weight.getString(3));
-        } else {
-            Toast.makeText(this,"Click en EDIT  pero hubo un error pareceeeee", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void update_edited_reg_weight (int id){
-
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-
-        // tomar datos re ingresados en campos y hacer el update definitivo con los nuevos campos
-        SQLiteDatabase bd = admin.getWritableDatabase();
-        ContentValues edited_reg_weight = new ContentValues(); // crea un objeto que luego actualizara
-
-        edited_reg_weight.put("date", edit_date_weight.getText().toString());// agrego datos al objeto registro
-        edited_reg_weight.put("value", Double.valueOf(edit_value_weight.getText().toString()));
-        edited_reg_weight.put("notes", edit_notes_weight.getText().toString());
-
-        int editedRows = bd.update("weight", edited_reg_weight, "id_reg_glucemia = "+id, null);
-
-        if (editedRows == 1){
-            // Si edite alguna fila, mandar a refrescar recicler, vaciar textos y setear btn a estado inicial..
-            edit_value_weight.setText("");// limpio pantalla
-            edit_notes_weight.setText("");
-            edit_date_weight.setText("");
-            this.updateRegWeight(); // actualiza array de reg
-            this.updateChartRegWeight(); // actualiza chart
-            adapterRegWeight.notifyDataSetChanged(); // refresca pantalla del recycler
-            Toast.makeText(this, "Registro actualizado!", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "ERROR AL EDITAR REGISTRO", Toast.LENGTH_LONG).show();
-        }
-    }
-    public void add_new_reg_weight(){
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-
-        SQLiteDatabase bd = admin.getWritableDatabase();// abre la bd
-        ContentValues new_reg_weight = new ContentValues(); // crea un objeto que luego sera un nuevo registro en la bd
-
-        // agrego datos al objeto registro
+    public void addNewReg(){
+        String newDate;
         if(add_date_weight.getText().toString().equals("") ){
             System.out.println("CREO NUEVA FECHA NOW PORQUE VINO VACIA");
-            new_reg_weight.put("date", new Date().toString());
+            newDate = new Date().toString();
         } else {
-            new_reg_weight.put("date", add_date_weight.getText().toString());
+            newDate = add_date_weight.getText().toString();
         }
-        new_reg_weight.put("value", add_value_weight.getText().toString());
-        new_reg_weight.put("notes", add_notes_weight.getText().toString());
-        bd.insert("weight", null, new_reg_weight);// inserta en tabla "weight"
+        DTORegister newReg = new DTORegister(newDate ,Double.valueOf(add_value_weight.getText().toString()) , add_notes_weight.getText().toString());
 
-        add_value_weight.setText("");// limpio pantalla
-        add_notes_weight.setText("");
-        add_date_weight.setText("");
-        bd.close();// cierro conexion bd
+        Boolean insertResult = admin.addReg(this.TABLE_NAME, newReg);
 
-        this.updateRegWeight();
-        this.updateChartRegWeight(); // sobreescribe chart
-        adapterRegWeight.notifyDataSetChanged(); // refresca pantalla del recycler
-        rv1.smoothScrollToPosition(reg_weight_ids.size()-1); // mueve la vista al ultimo elemento agregado
-        Toast.makeText(this,"Se agrego registro de peso", Toast.LENGTH_SHORT).show();
+        if(insertResult){
+            add_value_weight.setText("");// limpio pantalla
+            add_notes_weight.setText("");
+            add_date_weight.setText(""); this.refreshRegs();
+            this.updateChartRegWeight(); // sobreescribe chart
+            adapterRegWeight.notifyDataSetChanged(); // refresca pantalla del recycler
+            rv1.smoothScrollToPosition(reg_weight_ids.size()-1); // mueve la vista al ultimo elemento agregado
+            Toast.makeText(this,"Se agrego registro de peso", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this,"Error agregando registro!", Toast.LENGTH_SHORT).show();
+        }
     }
-    public void delete_reg_weight(int id){
+    public void deleteReg(int id){
 
         // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
         // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
@@ -404,12 +345,37 @@ public class RegWeightActivity extends AppCompatActivity implements View.OnClick
         bd.close(); // cierro conexion bd
 
         if(deletedRow == 1){
-            this.updateRegWeight(); // actualiza array de reg
+            this.refreshRegs(); // actualiza array de reg
             this.updateChartRegWeight(); // sobreescribe chart
             adapterRegWeight.notifyDataSetChanged(); // refresca pantalla del recycler
             Toast.makeText(this, "Registro eliminado correctamente", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "Error eliminando registro", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void setTextEditRegPopup(int id){
+        DTORegister regById = admin.getRegById(this.TABLE_NAME, id);
+        if (regById != null){
+            edit_date_weight.setText(regById.getDate());
+            edit_value_weight.setText(String.valueOf(regById.getValue()));
+            edit_notes_weight.setText(regById.getNotes());
+        }else{
+            Toast.makeText(this,"Error editando registro", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void updateEditedReg(int id){
+        DTORegister dtoUpdated = new DTORegister(edit_date_weight.getText().toString(), Double.valueOf(edit_value_weight.getText().toString()) ,edit_notes_weight.getText().toString());
+        boolean updateResult = admin.updateRegById(this.TABLE_NAME,id,dtoUpdated);
+        if (updateResult){
+            edit_value_weight.setText("");// limpio pantalla
+            edit_notes_weight.setText("");
+            edit_date_weight.setText("");
+            this.refreshRegs(); // actualiza array de reg
+            this.updateChartRegWeight(); // actualiza chart
+            adapterRegWeight.notifyDataSetChanged(); // refresca pantalla del recycler
+            Toast.makeText(this, "Registro actualizado!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Error al editar registro", Toast.LENGTH_LONG).show();
         }
     }
 }

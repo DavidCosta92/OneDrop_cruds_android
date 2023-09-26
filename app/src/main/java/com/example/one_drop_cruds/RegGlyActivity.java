@@ -6,11 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.one_drop_cruds.entities.DTORegister;
+import com.example.one_drop_cruds.entities.DTOReadAllRegisters;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -38,6 +37,7 @@ import java.util.Locale;
 
 public class RegGlyActivity extends AppCompatActivity implements View.OnClickListener{
     AdminSQLiteOpenHelper admin;
+    String TABLE_NAME = "glycemia";
     EditText add_value_gly, add_notes_gly, add_date_gly;
     EditText edit_value_gly, edit_notes_gly, edit_date_gly;
     // Button btn_add_reg_gly;
@@ -63,7 +63,7 @@ public class RegGlyActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_reg_gly);
         admin = new AdminSQLiteOpenHelper(this, "bd_one_drop", null, 1); // version es para las futuras modificaciones de la estructura de la bd
 
-        this.updateRegGly(); // CARGAR ARRAYS CON DATA
+        this.refreshRegs(); // CARGAR ARRAYS CON DATA
 
         // btn float add
         float_btn_add_reg_gly = findViewById(R.id.float_btn_add_reg_weight);
@@ -164,10 +164,10 @@ public class RegGlyActivity extends AppCompatActivity implements View.OnClickLis
         edit_notes_gly = popupEditReg.findViewById(R.id.edit_notes_gly);
         edit_date_gly = popupEditReg.findViewById(R.id.edit_date_gly);
 
-        set_text_edit_reg_popup(id_reg); // esto es para setear los campos del popup con la info de la bd
+        setTextEditRegPopup(id_reg); // esto es para setear los campos del popup con la info de la bd
         builder.setPositiveButton("¡Editar!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                update_edited_reg_gly(id_reg); // toma los campos modificados y actualiza la bd
+                updateEditedReg(id_reg); // toma los campos modificados y actualiza la bd
                 dialog.dismiss();
             }
         });
@@ -183,7 +183,7 @@ public class RegGlyActivity extends AppCompatActivity implements View.OnClickLis
         builder.setMessage("¿Eliminar este registro?");
         builder.setPositiveButton("¡Eliminar!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                delete_reg_gly(id_reg);
+                deleteReg(id_reg);
                 dialog.dismiss();
             }
         });
@@ -209,7 +209,7 @@ public class RegGlyActivity extends AppCompatActivity implements View.OnClickLis
 
         builder.setPositiveButton("¡Agregar!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                add_new_reg_gly();
+                addNewReg();
                 dialog.dismiss();
             }
         });
@@ -287,139 +287,54 @@ public class RegGlyActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    //USO DE BD
-    //USO DE BD
-    //USO DE BD
-    //USO DE BD
-    public void updateRegGly(){
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
+    //USO DE BD -- USO DE BD -- USO DE BD -- USO DE BD
+    public void refreshRegs(){
+        DTOReadAllRegisters results = admin.getAllRegs(this.TABLE_NAME);
 
-        SQLiteDatabase bd = admin.getWritableDatabase(); // abre la bd
-        // este obj ejecuta la consulta a bd
-        Cursor fila = bd.rawQuery("SELECT * FROM glycemia", null);
+        if (results != null){
+            // limpio arrays para recibir los datos nuevos..
+            reg_gly_ids.clear();
+            reg_gly_dates.clear();
+            reg_gly_values.clear();
+            reg_gly_notes.clear();
 
-        reg_gly_ids.clear(); // limpio arrays para recibir los datos nuevos..
-        reg_gly_dates.clear();
-        reg_gly_values.clear();
-        reg_gly_notes.clear();
-
-        if (fila.moveToFirst()){
-            do {
-                reg_gly_ids.add(Integer.valueOf(fila.getInt(0)));
-                reg_gly_dates.add(fila.getString(1));
-                reg_gly_values.add(fila.getDouble(2));
-                reg_gly_notes.add(fila.getString(3));
-            }
-            while (fila.moveToNext());
+            // SETEO A LOS VALORES RECIBIDOS POR BD
+            reg_gly_ids = results.getReg_ids();
+            reg_gly_dates = results.getReg_dates();
+            reg_gly_values = results.getReg_values();
+            reg_gly_notes = results.getReg_notes();
         } else{
             Toast.makeText(this, "Aun no hay registros guardados..", Toast.LENGTH_LONG).show();
         }
-        bd.close(); // cierro conexion bd
     }
-    public void set_text_edit_reg_popup(int id){
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-
-        // cargar datos en campos visuales para que sea visible y editable lo que estaba en la bd
-        SQLiteDatabase bd = admin.getWritableDatabase(); // abre la bd
-        Cursor reg_gly = bd.rawQuery("SELECT * FROM glycemia WHERE id_reg_glucemia = " +id, null); // Busco el registro por id
-
-        if(reg_gly.moveToFirst()) {
-            edit_date_gly.setText(reg_gly.getString(1)); // obtengo la primera columna del resultado, y el texto lo seteo en el campo date
-            edit_value_gly.setText(reg_gly.getString(2));
-            edit_notes_gly.setText(reg_gly.getString(3));
-        } else {
-            Toast.makeText(this,"Click en EDIT  pero hubo un error pareceeeee", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void update_edited_reg_gly (int id){
-
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-
-        // tomar datos re ingresados en campos y hacer el update definitivo con los nuevos campos
-        SQLiteDatabase bd = admin.getWritableDatabase();
-        ContentValues edited_reg_gly = new ContentValues(); // crea un objeto que luego actualizara
-
-        edited_reg_gly.put("date", edit_date_gly.getText().toString());// agrego datos al objeto registro
-        edited_reg_gly.put("value", Double.valueOf(edit_value_gly.getText().toString()));
-        edited_reg_gly.put("notes", edit_notes_gly.getText().toString());
-
-        int editedRows = bd.update("glycemia", edited_reg_gly, "id_reg_glucemia = "+id, null);
-
-        if (editedRows == 1){
-            // Si edite alguna fila, mandar a refrescar recicler, vaciar textos y setear btn a estado inicial..
-            edit_value_gly.setText("");// limpio pantalla
-            edit_notes_gly.setText("");
-            edit_date_gly.setText("");
-            this.updateRegGly(); // actualiza array de reg
-            this.updateChartRegGly(); // actualiza chart
-            adapterRegGly.notifyDataSetChanged(); // refresca pantalla del recycler
-
-            // btn_add_reg_gly.setText("¡Agregar nuevo registro!"); // Coloco el btn a su texto inicial
-            // btn_add_reg_gly.setBackgroundColor(getColor(R.color.green)); // Coloco el btn a su color inicial
-            // sobre escribo el click para que vuelva a su estado original (agregar registros)
-            // ESTO ES LA FORMA CON LAMBDA
-            /*
-            btn_add_reg_gly.setOnClickListener(view -> {
-                add_new_reg_gly(view);
-            });
-            */
-            // ESTO ES LA FORMA COMPLETA DE HACERLO
-            // btn_add_reg_gly.setOnClickListener(new View.OnClickListener() {
-            //     @Override
-            //     public void onClick(View view) {
-            //
-            //     }
-            // });
-            Toast.makeText(this, "Registro actualizado!", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "ERROR AL EDITAR REGISTRO", Toast.LENGTH_LONG).show();
-        }
-    }
-    public void add_new_reg_gly(){
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-
-        SQLiteDatabase bd = admin.getWritableDatabase();// abre la bd
-        ContentValues new_reg_gly = new ContentValues(); // crea un objeto que luego sera un nuevo registro en la bd
-
-        // agrego datos al objeto registro
+    public void addNewReg(){
+        String newDate;
         if(add_date_gly.getText().toString().equals("") ){
             System.out.println("CREO NUEVA FECHA NOW PORQUE VINO VACIA");
-            new_reg_gly.put("date", new Date().toString());
+            newDate = new Date().toString();
         } else {
-            new_reg_gly.put("date", add_date_gly.getText().toString());
+            newDate = add_date_gly.getText().toString();
         }
-        new_reg_gly.put("value", add_value_gly.getText().toString());
-        new_reg_gly.put("notes", add_notes_gly.getText().toString());
-        bd.insert("glycemia", null, new_reg_gly);// inserta en tabla "glycemia"
+        DTORegister newReg = new DTORegister(newDate ,Double.valueOf(add_value_gly.getText().toString()) , add_notes_gly.getText().toString());
 
-        add_value_gly.setText("");// limpio pantalla
-        add_notes_gly.setText("");
-        add_date_gly.setText("");
-        bd.close();// cierro conexion bd
+        Boolean insertResult = admin.addReg(this.TABLE_NAME, newReg);
 
-        this.updateRegGly();
-        this.updateChartRegGly(); // sobreescribe chart
-        adapterRegGly.notifyDataSetChanged(); // refresca pantalla del recycler
-        rv1.smoothScrollToPosition(reg_gly_ids.size()-1); // mueve la vista al ultimo elemento agregado
-        Toast.makeText(this,"Se agrego registro de glucemia", Toast.LENGTH_SHORT).show();
+        if(insertResult){
+            add_value_gly.setText("");// limpio pantalla
+            add_notes_gly.setText("");
+            add_date_gly.setText(""); this.refreshRegs();
+            this.updateChartRegGly(); // sobreescribe chart
+            adapterRegGly.notifyDataSetChanged(); // refresca pantalla del recycler
+            rv1.smoothScrollToPosition(reg_gly_ids.size()-1); // mueve la vista al ultimo elemento agregado
+            Toast.makeText(this,"Se agrego registro de glucemia", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this,"Error agregando registro!", Toast.LENGTH_SHORT).show();
+        }
     }
-    public void delete_reg_gly(int id){
-
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-        // DEBO SEPARAR EN RESPONSABILIDADES con admin sqlite helper ANTES DE AGREGAR LOS OTROS CRUDS, NO VA A SER ESCALABLE
-
-        SQLiteDatabase bd = admin.getWritableDatabase();
-        int deletedRow = bd.delete("glycemia", "id_reg_glucemia = "+id, null);
-        bd.close(); // cierro conexion bd
-
-        if(deletedRow == 1){
-            this.updateRegGly(); // actualiza array de reg
+    public void deleteReg(int id){
+        Boolean deleteResult = admin.deleteReg(this.TABLE_NAME , id);
+        if(deleteResult){
+            this.refreshRegs(); // actualiza array de reg
             this.updateChartRegGly(); // sobreescribe chart
             adapterRegGly.notifyDataSetChanged(); // refresca pantalla del recycler
             Toast.makeText(this, "Registro eliminado correctamente", Toast.LENGTH_LONG).show();
@@ -427,4 +342,31 @@ public class RegGlyActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this, "Error eliminando registro", Toast.LENGTH_LONG).show();
         }
     }
+    public void setTextEditRegPopup(int id){
+        DTORegister regById = admin.getRegById(this.TABLE_NAME, id);
+        if (regById != null){
+            edit_date_gly.setText(regById.getDate());
+            edit_value_gly.setText(String.valueOf(regById.getValue()));
+            edit_notes_gly.setText(regById.getNotes());
+        }else{
+            Toast.makeText(this,"Error editando registro", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void updateEditedReg(int id){
+        DTORegister dtoUpdated = new DTORegister(edit_date_gly.getText().toString(), Double.valueOf(edit_value_gly.getText().toString()) ,edit_notes_gly.getText().toString());
+        boolean updateResult = admin.updateRegById(this.TABLE_NAME,id,dtoUpdated);
+        if (updateResult){
+            edit_value_gly.setText("");// limpio pantalla
+            edit_notes_gly.setText("");
+            edit_date_gly.setText("");
+            this.refreshRegs(); // actualiza array de reg
+            this.updateChartRegGly(); // actualiza chart
+            adapterRegGly.notifyDataSetChanged(); // refresca pantalla del recycler
+            Toast.makeText(this, "Registro actualizado!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Error al editar registro", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 }
