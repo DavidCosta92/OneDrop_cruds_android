@@ -13,13 +13,19 @@
         android:theme="@style/Theme.One_drop_cruds"
         tools:targetApi="31">
         <activity
-            android:name=".RegistrarAnalisis"
+            android:name=".RegPressureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegWeightActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegAnalysisActivity"
             android:exported="false" />
         <activity
             android:name=".Home"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".UserLoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,10 +34,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignupActivity"
+            android:name=".UserSignupActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".RegGlyActivity"
             android:exported="true" />
     </application>
 

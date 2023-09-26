@@ -6,19 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+import com.example.one_drop_cruds.databinding.ActivityUserLoginBinding;
 
-import com.example.one_drop_cruds.databinding.ActivityLoginBinding;
+public class UserLoginActivity extends AppCompatActivity {
 
-
-public class LoginActivity extends AppCompatActivity {
-
-    ActivityLoginBinding binding;
+    ActivityUserLoginBinding binding;
     AdminSQLiteOpenHelper adminBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = ActivityUserLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         adminBD = new AdminSQLiteOpenHelper(this, "bd_one_drop", null, 1); // version es para las futuras modificaciones de la estructura de la bd
@@ -30,16 +28,16 @@ public class LoginActivity extends AppCompatActivity {
                 String password = binding.loginPassword.getText().toString();
 
                 if(email.equals("")||password.equals(""))
-                    Toast.makeText(LoginActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserLoginActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
                 else{
                     Boolean checkCredentials = adminBD.checkEmailPassword(email, password);
 
                     if(checkCredentials == true){
-                        Toast.makeText(LoginActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserLoginActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
                         Intent intent  = new Intent(getApplicationContext(), Home.class);
                         startActivity(intent);
                     }else{
-                        Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserLoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -48,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.signupRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                Intent intent = new Intent(UserLoginActivity.this, UserSignupActivity.class);
                 startActivity(intent);
             }
         });

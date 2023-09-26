@@ -6,17 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-import com.example.one_drop_cruds.databinding.ActivitySignupBinding;
-public class SignupActivity extends AppCompatActivity {
+import com.example.one_drop_cruds.databinding.ActivityUserSignupBinding;
+public class UserSignupActivity extends AppCompatActivity {
 
-    ActivitySignupBinding binding;
+    ActivityUserSignupBinding binding;
     // DatabaseHelper databaseHelper;
     AdminSQLiteOpenHelper adminBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySignupBinding.inflate(getLayoutInflater());
+        binding = ActivityUserSignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         adminBD = new AdminSQLiteOpenHelper(this, "bd_one_drop", null, 1); // version es para las futuras modificaciones de la estructura de la bd
@@ -30,7 +30,7 @@ public class SignupActivity extends AppCompatActivity {
                 String confirmPassword = binding.signupConfirm.getText().toString();
 
                 if(email.equals("")||password.equals("")||confirmPassword.equals(""))
-                    Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserSignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
                 else{
                     if(password.equals(confirmPassword)){
                         Boolean checkUserEmail = adminBD.checkEmail(email);
@@ -39,18 +39,18 @@ public class SignupActivity extends AppCompatActivity {
                             Boolean insert = adminBD.createUser(email, password);
 
                             if(insert == true){
-                                Toast.makeText(SignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                                Toast.makeText(UserSignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), UserLoginActivity.class);
                                 startActivity(intent);
                             }else{
-                                Toast.makeText(SignupActivity.this, "Signup Failed!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserSignupActivity.this, "Signup Failed!", Toast.LENGTH_SHORT).show();
                             }
                         }
                         else{
-                            Toast.makeText(SignupActivity.this, "User already exists! Please login", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserSignupActivity.this, "User already exists! Please login", Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(SignupActivity.this, "Invalid Password!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserSignupActivity.this, "Invalid Password!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -59,7 +59,7 @@ public class SignupActivity extends AppCompatActivity {
         binding.loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                Intent intent = new Intent(UserSignupActivity.this, UserLoginActivity.class);
                 startActivity(intent);
             }
         });

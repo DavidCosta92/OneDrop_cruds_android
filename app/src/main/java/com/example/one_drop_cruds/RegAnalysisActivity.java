@@ -15,7 +15,7 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class RegistrarAnalisis extends AppCompatActivity {
+public class RegAnalysisActivity extends AppCompatActivity {
 
     ImageView iv1;
     @Override
@@ -67,7 +67,10 @@ public class RegistrarAnalisis extends AppCompatActivity {
         String fecha= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         return fecha+".jpg";
     }
-
+    public void toHome(View v){
+        Intent home = new Intent(this, Home.class);
+        startActivity(home);
+    }
 
     // METODO PARA IR A LA GALERIA
 

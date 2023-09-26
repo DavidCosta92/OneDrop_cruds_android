@@ -17,14 +17,23 @@ public class Home extends AppCompatActivity {
 
     // METODOS DE NAVEGACION
     public void aRegistrarGlucemia(View v){
-        Intent siguiente = new Intent(this, MainActivity.class);
+        Intent siguiente = new Intent(this, RegGlyActivity.class);
         startActivity(siguiente);
     }//
 
     public void aRegistrarAnalisis(View v){
-        Intent siguiente = new Intent(this, RegistrarAnalisis.class);
+        Intent siguiente = new Intent(this, RegAnalysisActivity.class);
         startActivity(siguiente);
     }//
+
+    public void toWeight(View v){
+        Intent weight = new Intent(this, RegWeightActivity.class);
+        startActivity(weight);
+    }
+    public void toPressure(View v){
+        Intent pressure = new Intent(this, RegPressureActivity.class);
+        startActivity(pressure);
+    }
 
 
     /////////////////////////////

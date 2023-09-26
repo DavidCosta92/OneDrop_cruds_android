@@ -28,6 +28,20 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
                 " email TEXT PRIMARY KEY, \n"+
                 " password TEXT NOT NULL\t\n"+
                 ")");
+        //PRESSURE
+        db.execSQL("CREATE TABLE pressure (\n"+
+                " id_reg_pressure INTEGER PRIMARY KEY AUTOINCREMENT, \n"+
+                " date DATETIME NOT NULL, \n"+
+                " value REAL, \n"+
+                " notes TEXT\t\n"+
+                ")");
+        //WEIGHT
+        db.execSQL("CREATE TABLE weight (\n"+
+                " id_reg_weight INTEGER PRIMARY KEY AUTOINCREMENT, \n"+
+                " date DATETIME NOT NULL, \n"+
+                " value REAL, \n"+
+                " notes TEXT\t\n"+
+                ")");
     }
     public Boolean createUser(String email, String password){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();

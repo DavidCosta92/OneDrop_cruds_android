@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">one_drop_cruds</string>
+
+
     <string name="title_crud_gly">Registros de glucemia</string>
     <string name="add_reg_gly">Agregar nuevo registro de glucemia</string>
     <string name="add_reg_gly_value">Valor de glucemia</string>
@@ -15,5 +17,17 @@
 
     <string name="recycler_reg_gly_edit">Edit</string>
     <string name="recycler_reg_gly_delete">Del</string>
+
+
+    <string name="title_crud_weight">Registros de masa corporal</string>
+    <string name="add_reg_weight">Agregar nuevo registro </string>
+    <string name="reg_gly_weight">Registros de peso historicos</string>
+
+    <string name="add_reg_weight_date">Fecha</string>
+    <string name="add_reg_weight_value">Valor de peso</string>
+    <string name="add_reg_weight_value_placeholder">70</string>
+    <string name="add_reg_weight_notes">Notas</string>
+    <string name="add_reg_weight_notes_placeholder">Tome esta muestra 30 minutos despues de desayunar un cafe con leche..</string>
+
 
 </resources>
