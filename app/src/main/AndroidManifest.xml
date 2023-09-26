@@ -21,6 +21,7 @@
         <activity
             android:name=".RegAnalysisActivity"
             android:exported="false" />
+
         <activity
             android:name=".Home"
             android:exported="false" />
