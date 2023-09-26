@@ -13,6 +13,9 @@
         android:theme="@style/Theme.One_drop_cruds"
         tools:targetApi="31">
         <activity
+            android:name=".Galeria_Analisis"
+            android:exported="false" />
+        <activity
             android:name=".RegistrarAnalisis"
             android:exported="false" />
         <activity
