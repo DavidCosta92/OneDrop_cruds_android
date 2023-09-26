@@ -22,7 +22,7 @@ public class Galeria_Analisis extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_galeria_analisis);
+        setContentView(R.layout.activity_reg_analysis_gallery);
 
         // declaraciones para galeria
         archivos=fileList();

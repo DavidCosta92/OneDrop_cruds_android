@@ -9,6 +9,6 @@ public class RegPressureActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pressure);
+        setContentView(R.layout.activity_reg_pressure);
     }
 }
