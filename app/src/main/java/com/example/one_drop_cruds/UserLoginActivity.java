@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import com.example.one_drop_cruds.databinding.ActivityUserLoginBinding;
+import com.example.one_drop_cruds.utils.AdminSQLiteOpenHelper;
 
 public class UserLoginActivity extends AppCompatActivity {
 
@@ -28,16 +29,16 @@ public class UserLoginActivity extends AppCompatActivity {
                 String password = binding.loginPassword.getText().toString();
 
                 if(email.equals("")||password.equals(""))
-                    Toast.makeText(UserLoginActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserLoginActivity.this, "Debes completar todos los campos", Toast.LENGTH_SHORT).show();
                 else{
                     Boolean checkCredentials = adminBD.checkEmailPassword(email, password);
 
-                    if(checkCredentials == true){
-                        Toast.makeText(UserLoginActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
+                    if(checkCredentials){
+                        Toast.makeText(UserLoginActivity.this, "Login exitoso!", Toast.LENGTH_SHORT).show();
                         Intent intent  = new Intent(getApplicationContext(), Home.class);
                         startActivity(intent);
                     }else{
-                        Toast.makeText(UserLoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserLoginActivity.this, "¡ Credenciales erroneas !", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

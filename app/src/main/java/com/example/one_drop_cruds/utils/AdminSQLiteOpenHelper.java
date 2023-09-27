@@ -1,4 +1,4 @@
-package com.example.one_drop_cruds;
+package com.example.one_drop_cruds.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,10 +11,12 @@ import androidx.annotation.Nullable;
 
 import com.example.one_drop_cruds.entities.DTORegister;
 import com.example.one_drop_cruds.entities.DTOReadAllRegisters;
+import com.example.one_drop_cruds.utils.PasswordEncoder;
 
 import java.util.ArrayList;
 
 public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
+    PasswordEncoder passwordEncoder = new PasswordEncoder();
     public AdminSQLiteOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -48,6 +50,16 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
                 " value REAL, \n"+
                 " notes TEXT\t\n"+
                 ")");
+        //FICHA MEDICAAAAA PENTENTEEEEE
+        /*
+        db.execSQL("CREATE TABLE weight (\n"+
+                " id_reg_weight INTEGER PRIMARY KEY AUTOINCREMENT, \n"+
+                " date DATETIME NOT NULL, \n"+
+                " value REAL, \n"+
+                " notes TEXT\t\n"+
+                ")");
+
+         */
     }
     public DTOReadAllRegisters getAllRegs(String tableName){
         DTOReadAllRegisters result = new DTOReadAllRegisters();
@@ -119,38 +131,18 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         int editedRows = bd.update(tableName, editedReg, "id_reg_" + tableName +" = "+id, null);
         return editedRows == 1? true : false;
     }
-
-
-
-    // PENDIENTE
-
-    // PENDIENTE
-    // PENDIENTE
-    // PENDIENTE
-    // PENDIENTE
-
-
-    // metodo para eliminarRegistro (tabla, id?)
     public Boolean createUser(String email, String password){
-        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        SQLiteDatabase bd = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("email", email);
 
-        // deberia hashearse password
-        contentValues.put("password", password);
-
-        long result = MyDatabase.insert("users", null, contentValues);
-
-        if (result == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        contentValues.put("password", passwordEncoder.encodePassword(password));
+        long result = bd.insert("users", null, contentValues);
+        return result == -1? false : true;
     }
     public Boolean checkEmail(String email){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("SELECT * FROM users WHERE email = ?", new String[]{email});
-
         if(cursor.getCount() > 0) {
             return true;
         }else {
@@ -158,14 +150,14 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         }
     }
     public Boolean checkEmailPassword(String email, String password){
-        SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor = MyDatabase.rawQuery("SELECT * FROM users WHERE email = ? and password = ?", new String[]{email, password});
-
-        if (cursor.getCount() > 0) {
-            return true;
-        }else {
-            return false;
+        SQLiteDatabase bd = this.getWritableDatabase();
+        Cursor regByEmail= bd.rawQuery("SELECT * FROM users WHERE email = ?", new String[]{email});// Busco el registro por EMAIL
+        if (regByEmail.moveToFirst()){
+            bd.close();
+            return passwordEncoder.verifyPassword(password, regByEmail.getString(1));
         }
+        bd.close();
+        return false;
     }
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {

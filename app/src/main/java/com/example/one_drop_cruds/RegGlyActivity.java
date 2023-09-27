@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.one_drop_cruds.entities.DTORegister;
 import com.example.one_drop_cruds.entities.DTOReadAllRegisters;
+import com.example.one_drop_cruds.utils.AdminSQLiteOpenHelper;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -227,6 +228,15 @@ public class RegGlyActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     // RECICLER VIEW
+
+    // RECICLER VIEW crear clase en UTILS, que sea reusable por todos los otros crudso!!!!!
+    // RECICLER VIEW crear clase en UTILS, que sea reusable por todos los otros crudso!!!!!
+    // RECICLER VIEW crear clase en UTILS, que sea reusable por todos los otros crudso!!!!!
+    // RECICLER VIEW crear clase en UTILS, que sea reusable por todos los otros crudso!!!!!
+    // RECICLER VIEW crear clase en UTILS, que sea reusable por todos los otros crudso!!!!!
+    // RECICLER VIEW crear clase en UTILS, que sea reusable por todos los otros crudso!!!!!
+    // RECICLER VIEW crear clase en UTILS, que sea reusable por todos los otros crudso!!!!!
+
     // RECICLER VIEW Clase que se encargara de CREAR todos los elementos de lista
     private class AdapterRegGly extends RecyclerView.Adapter<AdapterRegGly.AdapterRegGlyHolder> {
         @NonNull
